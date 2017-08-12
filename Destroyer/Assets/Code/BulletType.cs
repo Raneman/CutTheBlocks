@@ -9,4 +9,6 @@ public class BulletType : MonoBehaviour
 {
     [HideInInspector]
     public ShotType shotType;
+    [HideInInspector]
+    public GunType gunType;
 }

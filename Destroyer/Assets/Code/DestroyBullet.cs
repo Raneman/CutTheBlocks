@@ -16,7 +16,13 @@ public class DestroyBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Bullet"))
-        { Destroy(collision.gameObject); }
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Ground"))
+        {
+            if (collision.gameObject.layer != LayerMask.NameToLayer("Bullet"))
+            {
+                int foo = 5;
+            }
+            Destroy(collision.gameObject); 
+        }
     }
 }
