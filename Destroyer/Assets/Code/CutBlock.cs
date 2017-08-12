@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class CutBlock : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject MinBlock;
+    private float minSize;
+
+    void Start()
+    {
+        Bounds bounds = MinBlock.GetComponent<SpriteRenderer>().bounds;
+        minSize = bounds.max.x - bounds.min.x;
+    }
+
     void Update()
     {
         //transform.RotateAround(Vector3.zero, Vector3.up, 20 * Time.deltaTime); COOL
@@ -17,9 +27,17 @@ public class CutBlock : MonoBehaviour
             SpriteRenderer box = GetComponent<SpriteRenderer>();
             float angle = transform.rotation.eulerAngles.z;
             transform.RotateAround(transform.position, Vector3.forward, -angle);
+            ShotType type = collision.GetComponent<BulletType>().shotType;
+
+            if ((type == ShotType.Vert && (box.bounds.max.x - box.bounds.min.x) / 2 < minSize) ||
+                (type == ShotType.Hor && (box.bounds.max.y - box.bounds.min.y) / 2 < minSize))
+            {
+                Destroy(collision.gameObject);
+                return;
+            }
 
             GameObject cl1 = Instantiate(gameObject, transform.position, Quaternion.identity);
-            if (collision.GetComponent<BulletType>().shotType == ShotType.Hor)
+            if (type == ShotType.Hor)
             {
                 cl1.transform.localScale = new Vector3(cl1.transform.localScale.x,
                        cl1.transform.localScale.y / 2, cl1.transform.localScale.z);
@@ -39,7 +57,7 @@ public class CutBlock : MonoBehaviour
             cl1.transform.RotateAround(transform.position, Vector3.forward, angle);
 
             GameObject cl2 = Instantiate(gameObject, transform.position, Quaternion.identity);
-            if (collision.GetComponent<BulletType>().shotType == ShotType.Hor)
+            if (type == ShotType.Hor)
             {
                 cl2.transform.localScale = new Vector3(cl2.transform.localScale.x,
                        cl2.transform.localScale.y / 2, cl2.transform.localScale.z);

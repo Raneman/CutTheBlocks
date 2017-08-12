@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HeroState : MonoBehaviour
 {
+    [HideInInspector]
     public ShotType shotType;
 
     private void Start()
